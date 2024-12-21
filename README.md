@@ -12,10 +12,48 @@ This project uses `pipenv` for dependency management and `unittest` as a testing
 
 The `bin` folder has scripts for basic commands.
 
+First, download the [community Docker image for RabbitMQ](https://hub.docker.com/_/rabbitmq/), then type:
+
+```sh
+docker run -it --rm --hostname localhost --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:latest
+```
+
 Create an environment in your preferred way and then:
 
 ```sh
 pipenv install
+```
+
+
+## Run
+
+### Durable work queues
+
+Different messages will be sent to the same queue and will be read by different clients using **round-robin**.
+
+You can run as many clients as you want. Each client consumes the same queue, called `hello`.
+
+If you run the server first, you won't loose the message, because the queue is persisted independently of the connection by whoever runs first, server or client.
+
+To start one client listening for messages on the `hello` queue:
+
+```sh
+. bin/client
+```
+
+To send messages, run:
+
+```sh
+. bin/server 'YOUR MESSAGE HERE'
+```
+
+![Diagram of the work queues architecture](images/work-queues.png)
+
+
+## Checking status of the queues:
+
+```sh
+. bin/status
 ```
 
 
