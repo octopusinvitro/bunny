@@ -1,0 +1,4 @@
+#!/bin/bash
+
+clear
+pipenv run flake8 bunny tests --max-line-length=100
