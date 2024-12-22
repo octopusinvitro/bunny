@@ -50,7 +50,30 @@ To send messages, run:
 ![Diagram of the work queues architecture](images/work-queues.png)
 
 
-## Checking status of the queues:
+### Broadcasting
+
+The same messages will be sent to all queues and all broadcastees using **a fanout exchange**.
+
+You can run as many broadcastees as you want. Each broadcastee consumes a different queue, which is automatically generated.
+
+If you run the broadcaster first, you will loose the message, because the queue is created per connection by the broadcastee, so it dies with it.
+
+To start one broadcastee listening for messages on a new queue:
+
+```sh
+. bin/broadcastee
+```
+
+To send messages, run:
+
+```sh
+. bin/broadcaster 'YOUR MESSAGE HERE'
+```
+
+![Diagram of the broadcasting architecture](images/broadcasting.png)
+
+
+## Checking status
 
 ```sh
 . bin/status

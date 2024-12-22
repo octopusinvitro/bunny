@@ -4,3 +4,15 @@ clear
 
 # Check the docs: https://www.rabbitmq.com/docs/man/rabbitmqctl.8#list_queues
 docker exec rabbitmq rabbitmqctl list_queues name messages messages_ready messages_unacknowledged
+
+echo
+
+docker exec rabbitmq rabbitmqctl list_exchanges
+
+echo
+
+docker exec rabbitmq rabbitmqctl list_bindings
+
+echo
+
+docker exec rabbitmq rabbitmqctl list_connections
