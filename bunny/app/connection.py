@@ -29,10 +29,10 @@ class Connection:
             )
         )
 
-    def produce_with_exchange(self, exchange, message):
+    def produce_with_exchange(self, exchange, message, routing_key=''):
         self._channel.basic_publish(
             exchange=exchange,
-            routing_key='',
+            routing_key=routing_key,
             body=message,
         )
 
@@ -43,11 +43,15 @@ class Connection:
         )
         self._channel.start_consuming()
 
-    def consume_with_exchange(self, exchange, callback):
+    def consume_with_exchange(self, exchange, callback, binding_keys=['']):
         result = self.queue(queue='', durable=False, exclusive=True)
         queue = result.method.queue
 
-        self._channel.queue_bind(exchange=exchange, queue=queue)
+        for binding_key in binding_keys:
+            self._channel.queue_bind(
+                exchange=exchange, queue=queue, routing_key=binding_key
+            )
+
         self._channel.basic_consume(
             queue=queue, on_message_callback=callback, auto_ack=True
         )
