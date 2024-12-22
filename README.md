@@ -73,6 +73,32 @@ To send messages, run:
 ![Diagram of the broadcasting architecture](images/broadcasting.png)
 
 
+### Routing
+
+The same messages will be sent to all queues and routees that have a **specific routing_key**, using **a direct exchange**.
+
+You can run as many routees as you want. Each routee consumes a different queue, which is automatically generated, and subscribes to specific routing keys.
+
+The router has to specify not only the message, but the routing key that will receive it.
+
+If you run the router first, you will loose the message, because the queue is created per connection by the routee, so it dies with it.
+
+To start one routee listening for messages on a new queue and specific routing keys:
+
+```sh
+. bin/routee ROUTING_KEY_1 ROUTING_KEY_2 [...etc]
+```
+
+To send messages, run:
+
+```sh
+. bin/router ROUTING_KEY 'YOUR MESSAGE HERE'
+```
+
+![Diagram of the routing architecture](images/routing.png)
+> In this image, `info`, `warn` and `error` are routing keys.
+
+
 ## Checking status
 
 ```sh
