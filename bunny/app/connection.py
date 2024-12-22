@@ -1,13 +1,23 @@
 import pika
 
 
+class ExchangeTypes:
+    DIRECT = 'direct'
+    FANOUT = 'fanout'
+    HEADER = 'headers'
+    TOPIC = 'topic'
+
+
 class Connection:
     def __init__(self, hostname='localhost'):
         connection = pika.BlockingConnection(pika.ConnectionParameters(hostname))
         self._channel = connection.channel()
 
-    def queue(self, queue):
-        self._channel.queue_declare(queue=queue, durable=True)
+    def queue(self, queue, durable=True, exclusive=False):
+        return self._channel.queue_declare(queue=queue, durable=durable, exclusive=exclusive)
+
+    def exchange(self, exchange, type):
+        self._channel.exchange_declare(exchange=exchange, exchange_type=type)
 
     def produce_with_message_persistance(self, routing_key, message):
         self._channel.basic_publish(
@@ -19,10 +29,27 @@ class Connection:
             )
         )
 
+    def produce_with_exchange(self, exchange, message):
+        self._channel.basic_publish(
+            exchange=exchange,
+            routing_key='',
+            body=message,
+        )
+
     def consume_with_acknowledgement(self, queue, callback_with_acknowledgement):
         self._channel.basic_qos(prefetch_count=1)
         self._channel.basic_consume(
             queue=queue, on_message_callback=callback_with_acknowledgement
+        )
+        self._channel.start_consuming()
+
+    def consume_with_exchange(self, exchange, callback):
+        result = self.queue(queue='', durable=False, exclusive=True)
+        queue = result.method.queue
+
+        self._channel.queue_bind(exchange=exchange, queue=queue)
+        self._channel.basic_consume(
+            queue=queue, on_message_callback=callback, auto_ack=True
         )
         self._channel.start_consuming()
 
