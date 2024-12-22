@@ -29,6 +29,14 @@ class Connection:
             )
         )
 
+    def produce_with_rpc(self, routing_key, message, properties):
+        self._channel.basic_publish(
+            exchange='',
+            routing_key=routing_key,
+            body=message,
+            properties=pika.BasicProperties(**properties)
+        )
+
     def produce_with_exchange(self, exchange, message, routing_key=''):
         self._channel.basic_publish(
             exchange=exchange,
@@ -56,6 +64,19 @@ class Connection:
             queue=queue, on_message_callback=callback, auto_ack=True
         )
         self._channel.start_consuming()
+
+    def consume_with_rpc(self, callback):
+        result = self.queue(queue='', durable=False, exclusive=True)
+        queue = result.method.queue
+
+        self._channel.basic_consume(
+            queue=queue, on_message_callback=callback, auto_ack=True
+        )
+
+        return queue
+
+    def wait_for_response(self):
+        self._channel.connection.process_data_events(time_limit=None)
 
     def acknowledge(self, channel, method):
         channel.basic_ack(delivery_tag=method.delivery_tag)
