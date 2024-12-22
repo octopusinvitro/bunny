@@ -99,6 +99,39 @@ To send messages, run:
 > In this image, `info`, `warn` and `error` are routing keys.
 
 
+### Filtering
+
+Filtering is like Routing, but instead of a `direct` exchange we use a `topic` exchange
+
+To see the effect, use a multiword routing key, for example for a two word multikey:
+
+1. This receives all the logs, works like a `fanout` exchange (use quotes!):
+
+```sh
+. bin/filtered '#'
+```
+
+1. All logs from routing keys having `foo` as first word:
+
+```sh
+. bin/filtered foo.*
+```
+
+1. All logs from routing keys having `foo` as first word or `bar` as second word:
+
+```sh
+. bin/filtered foo.* *.bar
+```
+
+To send messages, run:
+
+```sh
+. bin/filterer foo.bar 'YOUR MESSAGE HERE'
+```
+
+![Diagram of the filtering architecture](images/filtering.png)
+
+
 ## Checking status
 
 ```sh

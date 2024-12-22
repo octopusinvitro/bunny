@@ -1,0 +1,4 @@
+#!/bin/bash
+
+clear
+pipenv run python3 -m bunny.cli.filtered $@
