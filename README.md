@@ -132,6 +132,25 @@ To send messages, run:
 ![Diagram of the filtering architecture](images/filtering.png)
 
 
+### RPC
+
+In this example is the client that makes requests to the server, sending a number so that the server can calculate bibonacci and send the result back.
+
+To start the RPC server listening for messages on the `rpc_queue` queue:
+
+```sh
+. bin/rpc_server
+```
+
+To send messages, run:
+
+```sh
+. bin/rpc_client NUMBER
+```
+
+![Diagram of the rpc architecture](images/rpc.png)
+
+
 ## Checking status
 
 ```sh
