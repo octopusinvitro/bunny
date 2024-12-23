@@ -1,13 +1,6 @@
 import pika
 
 
-class ExchangeTypes:
-    DIRECT = 'direct'
-    FANOUT = 'fanout'
-    HEADER = 'headers'
-    TOPIC = 'topic'
-
-
 class Connection:
     def __init__(self, hostname='localhost'):
         connection = pika.BlockingConnection(pika.ConnectionParameters(hostname))

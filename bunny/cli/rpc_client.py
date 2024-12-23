@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-from ..app.connection import Connection
 from ..app.rpc_client import RPCClient
+from ..queues.connection import Connection
 
 from .arg_parser import first_argument
 

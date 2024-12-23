@@ -3,8 +3,9 @@
 import os
 import sys
 
-from ..app.connection import Connection, ExchangeTypes
 from ..app.broadcastee import Broadcastee
+from ..queues.connection import Connection
+from ..queues.types import ExchangeTypes
 
 
 connection = Connection()

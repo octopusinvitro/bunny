@@ -3,8 +3,9 @@
 import os
 import sys
 
-from ..app.connection import Connection, ExchangeTypes
 from ..app.routee import Routee
+from ..queues.connection import Connection
+from ..queues.types import ExchangeTypes
 
 from .arg_parser import all_arguments
 

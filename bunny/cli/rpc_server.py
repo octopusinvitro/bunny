@@ -3,8 +3,8 @@
 import os
 import sys
 
-from ..app.connection import Connection
 from ..app.rpc_server import RPCServer
+from ..queues.connection import Connection
 
 
 connection = Connection()

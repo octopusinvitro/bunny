@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
-from ..app.connection import Connection, ExchangeTypes
 from ..app.router import Router
+from ..queues.connection import Connection
+from ..queues.types import ExchangeTypes
 
 from .arg_parser import first_argument, second_argument
 

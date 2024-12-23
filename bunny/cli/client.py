@@ -3,8 +3,8 @@
 import os
 import sys
 
-from ..app.connection import Connection
 from ..app.consumer import Consumer
+from ..queues.connection import Connection
 
 
 connection = Connection()
